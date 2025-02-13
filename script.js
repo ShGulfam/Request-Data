@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   toggleSections();
 
-  // Allow adding additional "Reg. No. or Name" input fields
+  // Allow adding additional "Reg. No. or Name" fields
   addStudentQueryBtn.addEventListener("click", function() {
     let input = document.createElement("input");
     input.type = "text";
@@ -37,13 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
     studentQueryContainer.appendChild(input);
   });
 
-  // Use google.script.run to call the server-side function
+  // Handle form submission via google.script.run
   form.addEventListener("submit", function(event) {
     event.preventDefault();
     const formData = new FormData(form);
     const requestData = {};
     formData.forEach((value, key) => {
-      // If key already exists, accumulate into an array
       if (requestData[key]) {
         if (Array.isArray(requestData[key])) {
           requestData[key].push(value);
@@ -54,7 +53,6 @@ document.addEventListener("DOMContentLoaded", function() {
         requestData[key] = value;
       }
     });
-    // Call the server-side function "submitRequest"
     google.script.run
       .withSuccessHandler(response => {
         alert("Request submitted successfully!");
