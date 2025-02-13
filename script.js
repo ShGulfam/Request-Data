@@ -1,4 +1,6 @@
-var WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwaOGs1kZZoSYCpvaOkf5OahiimVbyWWqhAHgFAxXwrHrAcV0OLqGFs1DnOlB1DfDuY/exec";
+// Define the web app URL – ensure this matches your deployed Apps Script web app URL.
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxpAnmDeAM7kYGkC4e_DlDpvXNb0AIo5l4lAqpWJSM1SLUqm2AtGejg1UcIahpn_LOD/exec";
+
 document.addEventListener("DOMContentLoaded", function() {
   const form = document.getElementById("requestForm");
   const dataTypeRadios = document.getElementsByName("dataType");
@@ -7,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const addStudentQueryBtn = document.getElementById("addStudentQuery");
   const studentQueryContainer = document.getElementById("studentQueryContainer");
 
-  // Toggle sections and disable fields of the hidden section
+  // Toggle sections and disable inputs of hidden section so they aren't validated.
   function toggleSections() {
     let selected = "";
     dataTypeRadios.forEach(radio => {
@@ -32,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   toggleSections();
 
-  // Add additional "Reg. No. or Name" field for specific student queries
+  // Allow adding additional "Reg. No. or Name" fields for specific student queries.
   addStudentQueryBtn.addEventListener("click", function() {
     let input = document.createElement("input");
     input.type = "text";
@@ -42,23 +44,21 @@ document.addEventListener("DOMContentLoaded", function() {
     studentQueryContainer.appendChild(input);
   });
 
-  // On submit, use fetch to send form data to the Apps Script web app.
+  // Handle form submission using fetch to POST data to the Apps Script web app.
   form.addEventListener("submit", function(event) {
     event.preventDefault();
     const formData = new FormData(form);
-    // Convert formData to URL-encoded string.
     const urlParams = new URLSearchParams();
     formData.forEach((value, key) => {
       urlParams.append(key, value);
     });
-    // Use your deployed web app URL
     fetch(WEB_APP_URL, {
       method: "POST",
       body: urlParams
     })
     .then(response => response.text())
     .then(data => {
-      alert("Request submitted successfully!");
+      alert("Request submitted successfully! Admin approval pending.");
       form.reset();
       toggleSections();
     })
