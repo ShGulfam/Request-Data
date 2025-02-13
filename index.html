@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Request Data - Govt HSS Shangus</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Admissions &amp; Examination</h1>
+    <h2>Govt Higher Secondary School Shangus</h2>
+  </header>
+
+  <main>
+    <form id="requestForm">
+      <fieldset>
+        <legend>Request Data</legend>
+
+        <!-- Common Fields -->
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Data type required *</label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="dataType" value="student" required>
+              Specific student
+            </label>
+            <label>
+              <input type="radio" name="dataType" value="bulk">
+              Bulk
+            </label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Specific Student Section -->
+      <fieldset id="specificStudentSection" class="hidden">
+        <legend>Request Data for a Student</legend>
+
+        <div class="form-group multi-entry">
+          <label for="studentQuery">Reg. No. or Name of student *</label>
+          <div id="studentQueryContainer">
+            <input type="text" name="studentQuery[]" class="student-query" required>
+          </div>
+          <button type="button" id="addStudentQuery">Add another</button>
+        </div>
+
+        <div class="form-group">
+          <label for="studentClass">Class</label>
+          <select id="studentClass" name="studentClass">
+            <option value="">--Select--</option>
+            <option>9th</option>
+            <option>10th</option>
+            <option>11th</option>
+            <option>12th</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="studentSession">Session</label>
+          <select id="studentSession" name="studentSession">
+            <option value="">--Select--</option>
+            <option>2022-23</option>
+            <option>2023-24</option>
+            <option>2024-25</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="chooseFormat">Choose Format *</label>
+          <select id="chooseFormat" name="chooseFormat" required>
+            <option value="">--Select--</option>
+            <option>Text</option>
+            <option>Word</option>
+            <option>PDF</option>
+            <option>Excel</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Choose columns needed *</label>
+          <div class="checkbox-group">
+            <!-- Multiple checkboxes (use "[]" in name for multiple selections) -->
+            <label><input type="checkbox" name="chooseColumns[]" value="Form Number"> Form Number</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Class Roll Number"> Class Roll Number</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Online Submission Date"> Online Submission Date</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Admission Date"> Admission Date</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Adm. No."> Adm. No.</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Class"> Class</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Session"> Session</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Reg. Number"> Reg. Number</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Student Name"> Student Name</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Father's Name"> Father's Name</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Mother's Name"> Mother's Name</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Date of Birth (Figures)"> Date of Birth (Figures)</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Date of Birth (Words)"> Date of Birth (Words)</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Residence (Village, District)"> Residence (Village, District)</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Gender"> Gender</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Religion"> Religion</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Stream"> Stream</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Subs"> Subs</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Student Email 1"> Student Email 1</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Student Email 2"> Student Email 2</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Student's Contact"> Student's Contact</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Parent's Contact"> Parent's Contact</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Aadhar Number"> Aadhar Number</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Bank Account Number"> Bank Account Number</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Bank Name"> Bank Name</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="IFSC Code"> IFSC Code</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Blood Group"> Blood Group</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Previous School"> Previous School</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Current Exam Roll No."> Current Exam Roll No.</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Result"> Result</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="Date of withdrawl"> Date of withdrawl</label>
+            <label><input type="checkbox" name="chooseColumns[]" value="No. & Date of CC/DC Issued by This Institution"> No. & Date of CC/DC Issued by This Institution</label>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Bulk Data Section -->
+      <fieldset id="bulkSection" class="hidden">
+        <legend>Request Bulk Data</legend>
+        <div class="form-group">
+          <label for="yourName">Your name? *</label>
+          <input type="text" id="yourName" name="yourName" required>
+        </div>
+        <div class="form-group">
+          <label for="bulkClass">Data needed for which class? *</label>
+          <select id="bulkClass" name="bulkClass" required>
+            <option value="">--Select--</option>
+            <option>9th</option>
+            <option>10th</option>
+            <option>11th</option>
+            <option>12th</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="bulkSession">Data needed for which academic session? *</label>
+          <select id="bulkSession" name="bulkSession" required>
+            <option value="">--Select--</option>
+            <option>2022-23</option>
+            <option>2023-24</option>
+            <option>2024-25</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Select columns needed *</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="selectColumns[]" value="Form Number"> Form Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Class Roll Number"> Class Roll Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Online Submission Date"> Online Submission Date</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Admission Date"> Admission Date</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Adm. No."> Adm. No.</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Class"> Class</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Session"> Session</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Reg. Number"> Reg. Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Board Name"> Board Name</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Student Name"> Student Name</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Father's Name"> Father's Name</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Mother's Name"> Mother's Name</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Date of Birth (Figures)"> Date of Birth (Figures)</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Date of Birth (Words)"> Date of Birth (Words)</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Residence (Village, District)"> Residence (Village, District)</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Gender"> Gender</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Religion"> Religion</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Disability Type"> Disability Type</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Stream"> Stream</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Subs"> Subs</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Student Email 1"> Student Email 1</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Student Email 2"> Student Email 2</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Student's Contact"> Student's Contact</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Parent's Contact"> Parent's Contact</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Aadhar Number"> Aadhar Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Bank Account Number"> Bank Account Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Bank Name"> Bank Name</label>
+            <label><input type="checkbox" name="selectColumns[]" value="IFSC"> IFSC</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Blood Group"> Blood Group</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Height (cm)"> Height (cm)</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Weight (kg)"> Weight (kg)</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Social Category"> Social Category</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Socio-economic Category"> Socio-economic Category</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Vocational Percentage"> Vocational Percentage</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Previous Complex Head"> Previous Complex Head</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Previous School"> Previous School</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Previous Exam Roll Number"> Previous Exam Roll Number</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Previous Marks Obtained"> Previous Marks Obtained</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Current Exam Roll No."> Current Exam Roll No.</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Result"> Result</label>
+            <label><input type="checkbox" name="selectColumns[]" value="Date of withdrawl"> Date of withdrawl</label>
+            <label><input type="checkbox" name="selectColumns[]" value="No. & Date of CC/DC Issued by This Institution"> No. & Date of CC/DC Issued by This Institution</label>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="bulkFormat">Format *</label>
+          <select id="bulkFormat" name="bulkFormat" required>
+            <option value="">--Select--</option>
+            <option>Text</option>
+            <option>Word</option>
+            <option>PDF</option>
+            <option>Excel</option>
+          </select>
+        </div>
+      </fieldset>
+
+      <div class="form-group">
+        <button type="submit">Submit Request</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
