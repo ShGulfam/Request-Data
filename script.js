@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const addStudentQueryBtn = document.getElementById("addStudentQuery");
   const studentQueryContainer = document.getElementById("studentQueryContainer");
 
-  // Toggle sections based on selected data type
+  // Toggle sections and enable/disable fields accordingly
   function toggleSections() {
     let selected = "";
     dataTypeRadios.forEach(radio => {
@@ -17,9 +17,15 @@ document.addEventListener("DOMContentLoaded", function() {
     if (selected === "student") {
       specificSection.classList.remove("hidden");
       bulkSection.classList.add("hidden");
+      // Enable fields in specific, disable bulk fields
+      Array.from(specificSection.querySelectorAll("input, select")).forEach(el => el.disabled = false);
+      Array.from(bulkSection.querySelectorAll("input, select")).forEach(el => el.disabled = true);
     } else if (selected === "bulk") {
       bulkSection.classList.remove("hidden");
       specificSection.classList.add("hidden");
+      // Enable fields in bulk, disable specific fields
+      Array.from(bulkSection.querySelectorAll("input, select")).forEach(el => el.disabled = false);
+      Array.from(specificSection.querySelectorAll("input, select")).forEach(el => el.disabled = true);
     }
   }
   dataTypeRadios.forEach(radio => {
@@ -27,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   toggleSections();
 
-  // Allow adding additional "Reg. No. or Name" fields
+  // Allow adding additional "Reg. No. or Name" fields for specific student queries.
   addStudentQueryBtn.addEventListener("click", function() {
     let input = document.createElement("input");
     input.type = "text";
