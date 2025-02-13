@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const addStudentQueryBtn = document.getElementById("addStudentQuery");
   const studentQueryContainer = document.getElementById("studentQueryContainer");
 
-  // Toggle sections and disable inputs in hidden section
+  // Toggle sections and disable inputs in hidden section so that required fields are not validated.
   function toggleSections() {
     let selected = "";
     dataTypeRadios.forEach(radio => {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   toggleSections();
 
-  // Allow adding additional "Reg. No. or Name" fields
+  // Allow adding additional "Reg. No. or Name" fields for specific student queries.
   addStudentQueryBtn.addEventListener("click", function() {
     let input = document.createElement("input");
     input.type = "text";
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     studentQueryContainer.appendChild(input);
   });
 
-  // Handle form submission via fetch (POST)
+  // Handle form submission using fetch with mode 'no-cors' to avoid CORS errors.
   form.addEventListener("submit", function(event) {
     event.preventDefault();
     const formData = new FormData(form);
@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", function() {
     });
     fetch(WEB_APP_URL, {
       method: "POST",
+      mode: "no-cors", // Use no-cors to bypass the CORS error.
       body: urlParams
     })
-    .then(response => response.text())
-    .then(data => {
+    .then(() => {
       alert("Request submitted successfully! Admin approval pending.");
       form.reset();
       toggleSections();
