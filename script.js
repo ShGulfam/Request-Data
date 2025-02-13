@@ -1,9 +1,12 @@
 // script.js
 
-// Helper to get all selected option values from a multiple select
+// URL of your deployed Apps Script web app.
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwaOGs1kZZoSYCpvaOkf5OahiimVbyWWqhAHgFAxXwrHrAcV0OLqGFs1DnOlB1DfDuY/exec";
+
+// Helper to get selected values from a multiple select element.
 function getSelectValues(select) {
-  var result = [];
-  for (var i = 0; i < select.options.length; i++) {
+  let result = [];
+  for (let i = 0; i < select.options.length; i++) {
     if (select.options[i].selected) {
       result.push(select.options[i].value);
     }
@@ -11,24 +14,23 @@ function getSelectValues(select) {
   return result;
 }
 
-
 document.addEventListener("DOMContentLoaded", function() {
-  var dataTypeRadios = document.getElementsByName("dataType");
-  var specificSection = document.getElementById("specificSection");
-  var bulkSection = document.getElementById("bulkSection");
-  
-  // Disable inactive section's inputs so required fields aren’t validated
+  const dataTypeRadios = document.getElementsByName("dataType");
+  const specificSection = document.getElementById("specificSection");
+  const bulkSection = document.getElementById("bulkSection");
+
+  // Disable inactive section's inputs so required fields aren’t validated.
   function toggleSectionInputs(section, disable) {
-    section.querySelectorAll("input, select, textarea, button").forEach(function(el) {
+    section.querySelectorAll("input, select, textarea, button").forEach(el => {
       el.disabled = disable;
     });
   }
-  
-  // Initially disable bulk section inputs
+
+  // Initially disable bulk section inputs.
   toggleSectionInputs(bulkSection, true);
-  
-  // Toggle sections based on selection
-  dataTypeRadios.forEach(function(radio) {
+
+  // Toggle sections when data type radio buttons change.
+  dataTypeRadios.forEach(radio => {
     radio.addEventListener("change", function() {
       if (this.value === "specific student") {
         specificSection.style.display = "block";
@@ -43,20 +45,20 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
-  
-  // Update visibility of "Remove" buttons in student query blocks
+
+  // Update visibility of "Remove" buttons in student query blocks.
   function updateRemoveButtons() {
-    var queryBlocks = document.querySelectorAll(".student-query");
-    queryBlocks.forEach(function(block) {
-      var removeBtn = block.querySelector(".removeStudentBtn");
+    const queryBlocks = document.querySelectorAll(".student-query");
+    queryBlocks.forEach(block => {
+      const removeBtn = block.querySelector(".removeStudentBtn");
       removeBtn.style.display = queryBlocks.length > 1 ? "inline-block" : "none";
     });
   }
-  
-  // Add another student query block
+
+  // Add another student query block.
   document.getElementById("addStudentBtn").addEventListener("click", function() {
-    var container = document.getElementById("studentQueriesContainer");
-    var queryDiv = document.createElement("div");
+    const container = document.getElementById("studentQueriesContainer");
+    const queryDiv = document.createElement("div");
     queryDiv.className = "student-query";
     queryDiv.innerHTML = `
       <hr>
@@ -92,9 +94,9 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
-  
-  // Attach remove functionality for the initial query block
-  var initialRemoveBtn = document.querySelector(".student-query .removeStudentBtn");
+
+  // Attach remove functionality for the initial query block.
+  const initialRemoveBtn = document.querySelector(".student-query .removeStudentBtn");
   if (initialRemoveBtn) {
     initialRemoveBtn.addEventListener("click", function() {
       if (document.querySelectorAll(".student-query").length > 1) {
@@ -103,31 +105,31 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   }
-  
-  // Handle form submission
+
+  // Handle form submission.
   document.getElementById("dataForm").addEventListener("submit", function(e) {
     e.preventDefault();
-    var form = e.target;
-    var formData = {};
-    
+    const form = e.target;
+    let formData = {};
+
     formData.email = form.email.value;
     formData.dataType = form.dataType.value;
-    
+
     if (formData.dataType === "specific student") {
       formData.specificFormat = form.specificFormat.value;
-      var specificColumns = [];
-      form.querySelectorAll("input[name='specificColumns']:checked").forEach(function(cb) {
+      let specificColumns = [];
+      form.querySelectorAll("input[name='specificColumns']:checked").forEach(cb => {
         specificColumns.push(cb.value);
       });
       formData.specificColumns = specificColumns;
-      
-      var studentQueries = [];
-      document.querySelectorAll(".student-query").forEach(function(div) {
-        var query = div.querySelector("input[name='studentQuery']").value;
-        var classSelect = div.querySelector("select[name='studentClass']");
-        var sessionSelect = div.querySelector("select[name='studentSession']");
-        var sClass = getSelectValues(classSelect);
-        var session = getSelectValues(sessionSelect);
+
+      let studentQueries = [];
+      document.querySelectorAll(".student-query").forEach(div => {
+        const query = div.querySelector("input[name='studentQuery']").value;
+        const classSelect = div.querySelector("select[name='studentClass']");
+        const sessionSelect = div.querySelector("select[name='studentSession']");
+        const sClass = getSelectValues(classSelect);
+        const session = getSelectValues(sessionSelect);
         studentQueries.push({
           query: query,
           class: sClass,
@@ -140,30 +142,41 @@ document.addEventListener("DOMContentLoaded", function() {
       formData.bulkClass = getSelectValues(form.bulkClass);
       formData.bulkSession = getSelectValues(form.bulkSession);
       formData.bulkFormat = form.bulkFormat.value;
-      var bulkColumns = [];
-      form.querySelectorAll("input[name='bulkColumns']:checked").forEach(function(cb) {
+      let bulkColumns = [];
+      form.querySelectorAll("input[name='bulkColumns']:checked").forEach(cb => {
         bulkColumns.push(cb.value);
       });
       formData.bulkColumns = bulkColumns;
     }
-    
+
+    // Disable submit button and show submitting message.
     form.querySelector("button[type='submit']").disabled = true;
     document.getElementById("result").innerText = "Submitting request...";
-    
-    google.script.run.withSuccessHandler(function(response) {
-      document.getElementById("result").innerText = response.message;
-      form.querySelector("button[type='submit']").disabled = false;
-      form.reset();
-      specificSection.style.display = "block";
-      bulkSection.style.display = "none";
-      toggleSectionInputs(specificSection, false);
-      toggleSectionInputs(bulkSection, true);
-      var container = document.getElementById("studentQueriesContainer");
-      container.innerHTML = container.querySelector(".student-query").outerHTML;
-      updateRemoveButtons();
-    }).withFailureHandler(function(err) {
-      document.getElementById("result").innerText = "Error: " + err.message;
-      form.querySelector("button[type='submit']").disabled = false;
-    }).processForm(formData);
+
+    // Use Fetch API to POST the JSON data.
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("result").innerText = data.message;
+        form.querySelector("button[type='submit']").disabled = false;
+        form.reset();
+        specificSection.style.display = "block";
+        bulkSection.style.display = "none";
+        toggleSectionInputs(specificSection, false);
+        toggleSectionInputs(bulkSection, true);
+        const container = document.getElementById("studentQueriesContainer");
+        container.innerHTML = container.querySelector(".student-query").outerHTML;
+        updateRemoveButtons();
+      })
+      .catch(error => {
+        document.getElementById("result").innerText = "Error: " + error.message;
+        form.querySelector("button[type='submit']").disabled = false;
+      });
   });
 });
