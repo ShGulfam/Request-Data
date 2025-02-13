@@ -1,70 +1,118 @@
-// Define the web app URL – ensure this matches your deployed Apps Script web app URL.
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxpAnmDeAM7kYGkC4e_DlDpvXNb0AIo5l4lAqpWJSM1SLUqm2AtGejg1UcIahpn_LOD/exec";
-
+// script.js
 document.addEventListener("DOMContentLoaded", function() {
-  const form = document.getElementById("requestForm");
-  const dataTypeRadios = document.getElementsByName("dataType");
-  const specificSection = document.getElementById("specificStudentSection");
-  const bulkSection = document.getElementById("bulkSection");
-  const addStudentQueryBtn = document.getElementById("addStudentQuery");
-  const studentQueryContainer = document.getElementById("studentQueryContainer");
-
-  // Toggle sections and disable inputs in hidden section so that required fields are not validated.
-  function toggleSections() {
-    let selected = "";
-    dataTypeRadios.forEach(radio => {
-      if (radio.checked) {
-        selected = radio.value;
+  var dataTypeRadios = document.getElementsByName("dataType");
+  var specificSection = document.getElementById("specificSection");
+  var bulkSection = document.getElementById("bulkSection");
+  
+  // Toggle sections based on data type selection
+  dataTypeRadios.forEach(function(radio) {
+    radio.addEventListener("change", function() {
+      if (this.value === "specific student") {
+        specificSection.style.display = "block";
+        bulkSection.style.display = "none";
+      } else if (this.value === "bulk") {
+        specificSection.style.display = "none";
+        bulkSection.style.display = "block";
       }
     });
-    if (selected === "student") {
-      specificSection.classList.remove("hidden");
-      bulkSection.classList.add("hidden");
-      Array.from(specificSection.querySelectorAll("input, select")).forEach(el => el.disabled = false);
-      Array.from(bulkSection.querySelectorAll("input, select")).forEach(el => el.disabled = true);
-    } else if (selected === "bulk") {
-      bulkSection.classList.remove("hidden");
-      specificSection.classList.add("hidden");
-      Array.from(bulkSection.querySelectorAll("input, select")).forEach(el => el.disabled = false);
-      Array.from(specificSection.querySelectorAll("input, select")).forEach(el => el.disabled = true);
+  });
+  
+  // Add functionality to add another student query row
+  document.getElementById("addStudentBtn").addEventListener("click", function() {
+    var container = document.getElementById("studentQueriesContainer");
+    var queryDiv = document.createElement("div");
+    queryDiv.className = "student-query";
+    queryDiv.innerHTML = `
+      <hr>
+      <div class="form-group">
+        <label>Reg. No. or Name of Student *</label>
+        <input type="text" name="studentQuery" required>
+      </div>
+      <div class="form-group">
+        <label>Class</label>
+        <select name="studentClass">
+          <option value="">--Select Class--</option>
+          <option value="9th">9th</option>
+          <option value="10th">10th</option>
+          <option value="11th">11th</option>
+          <option value="12th">12th</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Session</label>
+        <select name="studentSession">
+          <option value="">--Select Session--</option>
+          <option value="2022-23">2022-23</option>
+          <option value="2023-24">2023-24</option>
+          <option value="2024-25">2024-25</option>
+        </select>
+      </div>
+    `;
+    container.appendChild(queryDiv);
+  });
+  
+  // Handle form submission
+  document.getElementById("dataForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    var form = e.target;
+    var formData = {};
+    
+    // Get email and data type
+    formData.email = form.email.value;
+    formData.dataType = form.dataType.value;
+    
+    if(formData.dataType === "specific student") {
+      formData.specificFormat = form.specificFormat.value;
+      // Get specific columns (checkboxes)
+      var specificColumns = [];
+      form.querySelectorAll("input[name='specificColumns']:checked").forEach(function(cb) {
+        specificColumns.push(cb.value);
+      });
+      formData.specificColumns = specificColumns;
+      
+      // Gather all student query rows
+      var studentQueries = [];
+      form.querySelectorAll(".student-query").forEach(function(div) {
+        var query = div.querySelector("input[name='studentQuery']").value;
+        var sClass = div.querySelector("select[name='studentClass']").value;
+        var session = div.querySelector("select[name='studentSession']").value;
+        studentQueries.push({
+          query: query,
+          class: sClass,
+          session: session
+        });
+      });
+      formData.studentQueries = studentQueries;
+    } else if(formData.dataType === "bulk") {
+      formData.bulkName = form.bulkName.value;
+      formData.bulkClass = form.bulkClass.value;
+      formData.bulkSession = form.bulkSession.value;
+      formData.bulkFormat = form.bulkFormat.value;
+      var bulkColumns = [];
+      form.querySelectorAll("input[name='bulkColumns']:checked").forEach(function(cb) {
+        bulkColumns.push(cb.value);
+      });
+      formData.bulkColumns = bulkColumns;
     }
-  }
-  dataTypeRadios.forEach(radio => {
-    radio.addEventListener("change", toggleSections);
-  });
-  toggleSections();
-
-  // Allow adding additional "Reg. No. or Name" fields for specific student queries.
-  addStudentQueryBtn.addEventListener("click", function() {
-    let input = document.createElement("input");
-    input.type = "text";
-    input.name = "Reg. No. or Name of student";
-    input.className = "student-query";
-    input.placeholder = "Enter Reg. No. or Name";
-    studentQueryContainer.appendChild(input);
-  });
-
-  // Handle form submission using fetch with mode 'no-cors' to avoid CORS errors.
-  form.addEventListener("submit", function(event) {
-    event.preventDefault();
-    const formData = new FormData(form);
-    const urlParams = new URLSearchParams();
-    formData.forEach((value, key) => {
-      urlParams.append(key, value);
-    });
-    fetch(WEB_APP_URL, {
-      method: "POST",
-      mode: "no-cors", // Use no-cors to bypass the CORS error.
-      body: urlParams
-    })
-    .then(() => {
-      alert("Request submitted successfully! Admin approval pending.");
+    
+    // Disable submit button and show submitting message
+    form.querySelector("button[type='submit']").disabled = true;
+    document.getElementById("result").innerText = "Submitting request...";
+    
+    // Call the server-side function using google.script.run
+    google.script.run.withSuccessHandler(function(response) {
+      document.getElementById("result").innerText = response.message;
+      form.querySelector("button[type='submit']").disabled = false;
       form.reset();
-      toggleSections();
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("There was an error submitting your request.");
-    });
+      // Reset section visibility: default back to specific student.
+      specificSection.style.display = "block";
+      bulkSection.style.display = "none";
+      // Remove extra student queries, keeping only the first one.
+      var container = document.getElementById("studentQueriesContainer");
+      container.innerHTML = container.querySelector(".student-query").outerHTML;
+    }).withFailureHandler(function(err) {
+      document.getElementById("result").innerText = "Error: " + err.message;
+      form.querySelector("button[type='submit']").disabled = false;
+    }).processForm(formData);
   });
 });
