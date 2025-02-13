@@ -11,6 +11,7 @@ function getSelectValues(select) {
   return result;
 }
 
+
 document.addEventListener("DOMContentLoaded", function() {
   var dataTypeRadios = document.getElementsByName("dataType");
   var specificSection = document.getElementById("specificSection");
