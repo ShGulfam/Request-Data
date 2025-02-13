@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     });
   });
+
   
   // Add functionality to add another student query row
   document.getElementById("addStudentBtn").addEventListener("click", function() {
