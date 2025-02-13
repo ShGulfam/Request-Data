@@ -3,130 +3,128 @@
 <html>
   <head>
     <base target="_top">
+    <meta charset="UTF-8">
+    <title>Data Export Request</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>Data Export Request</h1>
-    <form id="dataForm">
-      <div class="form-group">
-        <label for="email">Email Address *</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      
-      <div class="form-group">
-        <label>Data Type Required *</label><br>
-        <input type="radio" id="specific" name="dataType" value="specific student" checked>
-        <label for="specific">Specific Student</label>
-        <input type="radio" id="bulk" name="dataType" value="bulk">
-        <label for="bulk">Bulk</label>
-      </div>
-      
-      <!-- Specific Student Section -->
-      <div id="specificSection">
-        <h2>Specific Student Request</h2>
-        <div id="studentQueriesContainer">
-          <div class="student-query">
-            <div class="form-group">
-              <label>Reg. No. or Name of Student *</label>
-              <input type="text" name="studentQuery" required>
-            </div>
-            <div class="form-group">
-              <label>Class (Select one or more)</label>
-              <select name="studentClass" multiple>
-                <option value="9th">9th</option>
-                <option value="10th">10th</option>
-                <option value="11th">11th</option>
-                <option value="12th">12th</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label>Session (Select one or more)</label>
-              <select name="studentSession" multiple>
-                <option value="2022-23">2022-23</option>
-                <option value="2023-24">2023-24</option>
-                <option value="2024-25">2024-25</option>
-              </select>
-            </div>
-            <!-- Remove button will be added dynamically (if more than one query block exists) -->
-            <button type="button" class="removeStudentBtn" style="display:none;">Remove</button>
-          </div>
-        </div>
-        <button type="button" id="addStudentBtn">Add Another Student</button>
-        
+    <div class="container">
+      <h1>Data Export Request</h1>
+      <form id="dataForm">
         <div class="form-group">
-          <label for="specificFormat">Choose Format *</label>
-          <select id="specificFormat" name="specificFormat" required>
-            <option value="text">Text</option>
-            <option value="word">Word</option>
-            <option value="pdf" selected>PDF</option>
-            <option value="excel">Excel</option>
-          </select>
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
         </div>
         
-        <div class="form-group">
-          <label>Choose Columns Needed *</label><br>
-          <div class="checkbox-group">
-            <!-- (List of checkboxes as before) -->
-            <label><input type="checkbox" name="specificColumns" value="Form Number"> Form Number</label>
-            <label><input type="checkbox" name="specificColumns" value="Class Roll Number"> Class Roll Number</label>
-            <!-- … add other checkboxes as needed … -->
-            <label><input type="checkbox" name="specificColumns" value="Reg. Number"> Reg. Number</label>
-            <label><input type="checkbox" name="specificColumns" value="Student Name"> Student Name</label>
+        <div class="form-group radio-group">
+          <span>Data Type Required *</span>
+          <label><input type="radio" name="dataType" value="specific student" checked> Specific Student</label>
+          <label><input type="radio" name="dataType" value="bulk"> Bulk</label>
+        </div>
+        
+        <!-- Specific Student Section -->
+        <div id="specificSection">
+          <h2>Specific Student Request</h2>
+          <div id="studentQueriesContainer">
+            <div class="student-query">
+              <div class="form-group">
+                <label>Reg. No. or Name of Student *</label>
+                <input type="text" name="studentQuery" placeholder="Enter student name or reg. number" required>
+              </div>
+              <div class="form-group">
+                <label>Class (Select one or more)</label>
+                <select name="studentClass" multiple>
+                  <option value="9th">9th</option>
+                  <option value="10th">10th</option>
+                  <option value="11th">11th</option>
+                  <option value="12th">12th</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Session (Select one or more)</label>
+                <select name="studentSession" multiple>
+                  <option value="2022-23">2022-23</option>
+                  <option value="2023-24">2023-24</option>
+                  <option value="2024-25">2024-25</option>
+                </select>
+              </div>
+              <button type="button" class="removeStudentBtn" style="display:none;">Remove</button>
+            </div>
+          </div>
+          <button type="button" id="addStudentBtn" class="btn-secondary">Add Another Student</button>
+          
+          <div class="form-group">
+            <label for="specificFormat">Choose Format *</label>
+            <select id="specificFormat" name="specificFormat" required>
+              <option value="text">Text</option>
+              <option value="word">Word</option>
+              <option value="pdf" selected>PDF</option>
+              <option value="excel">Excel</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Choose Columns Needed *</label>
+            <div class="checkbox-group">
+              <!-- Adjust or add more checkboxes as needed -->
+              <label><input type="checkbox" name="specificColumns" value="Form Number"> Form Number</label>
+              <label><input type="checkbox" name="specificColumns" value="Class Roll Number"> Class Roll Number</label>
+              <label><input type="checkbox" name="specificColumns" value="Reg. Number"> Reg. Number</label>
+              <label><input type="checkbox" name="specificColumns" value="Student Name"> Student Name</label>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <!-- Bulk Section -->
-      <div id="bulkSection" style="display: none;">
-        <h2>Bulk Data Request</h2>
-        <div class="form-group">
-          <label for="bulkName">Your Name *</label>
-          <input type="text" id="bulkName" name="bulkName" required>
-        </div>
-        <div class="form-group">
-          <label for="bulkClass">Data needed for which class? (Select one or more) *</label>
-          <select id="bulkClass" name="bulkClass" multiple required>
-            <option value="9th">9th</option>
-            <option value="10th">10th</option>
-            <option value="11th">11th</option>
-            <option value="12th">12th</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="bulkSession">Data needed for which academic session? (Select one or more) *</label>
-          <select id="bulkSession" name="bulkSession" multiple required>
-            <option value="2022-23">2022-23</option>
-            <option value="2023-24">2023-24</option>
-            <option value="2024-25">2024-25</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label> Select Columns Needed *</label><br>
-          <div class="checkbox-group">
-            <!-- (List of checkboxes as before) -->
-            <label><input type="checkbox" name="bulkColumns" value="Form Number"> Form Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Class Roll Number"> Class Roll Number</label>
-            <!-- … add other checkboxes as needed … -->
-            <label><input type="checkbox" name="bulkColumns" value="Student Name"> Student Name</label>
+        
+        <!-- Bulk Section -->
+        <div id="bulkSection" style="display: none;">
+          <h2>Bulk Data Request</h2>
+          <div class="form-group">
+            <label for="bulkName">Your Name *</label>
+            <input type="text" id="bulkName" name="bulkName" placeholder="Enter your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="bulkClass">Data needed for which class? (Select one or more) *</label>
+            <select id="bulkClass" name="bulkClass" multiple required>
+              <option value="9th">9th</option>
+              <option value="10th">10th</option>
+              <option value="11th">11th</option>
+              <option value="12th">12th</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="bulkSession">Data needed for which academic session? (Select one or more) *</label>
+            <select id="bulkSession" name="bulkSession" multiple required>
+              <option value="2022-23">2022-23</option>
+              <option value="2023-24">2023-24</option>
+              <option value="2024-25">2024-25</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label> Select Columns Needed *</label>
+            <div class="checkbox-group">
+              <!-- Adjust or add more checkboxes as needed -->
+              <label><input type="checkbox" name="bulkColumns" value="Form Number"> Form Number</label>
+              <label><input type="checkbox" name="bulkColumns" value="Class Roll Number"> Class Roll Number</label>
+              <label><input type="checkbox" name="bulkColumns" value="Student Name"> Student Name</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bulkFormat">Format *</label>
+            <select id="bulkFormat" name="bulkFormat" required>
+              <option value="text">Text</option>
+              <option value="word">Word</option>
+              <option value="pdf" selected>PDF</option>
+              <option value="excel">Excel</option>
+            </select>
           </div>
         </div>
+        
         <div class="form-group">
-          <label for="bulkFormat">Format *</label>
-          <select id="bulkFormat" name="bulkFormat" required>
-            <option value="text">Text</option>
-            <option value="word">Word</option>
-            <option value="pdf" selected>PDF</option>
-            <option value="excel">Excel</option>
-          </select>
+          <button type="submit" class="btn-primary">Submit Request</button>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <button type="submit">Submit Request</button>
-      </div>
-    </form>
-    
-    <div id="result"></div>
+      </form>
+      <div id="result"></div>
+    </div>
   </body>
 </html>
