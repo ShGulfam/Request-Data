@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
   const addStudentQueryBtn = document.getElementById("addStudentQuery");
   const studentQueryContainer = document.getElementById("studentQueryContainer");
 
-  // Toggle sections and disable inputs of hidden section so they aren't validated.
+  // Toggle sections and disable inputs in hidden section
   function toggleSections() {
     let selected = "";
     dataTypeRadios.forEach(radio => {
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
   });
   toggleSections();
 
-  // Allow adding additional "Reg. No. or Name" fields for specific student queries.
+  // Allow adding additional "Reg. No. or Name" fields
   addStudentQueryBtn.addEventListener("click", function() {
     let input = document.createElement("input");
     input.type = "text";
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
     studentQueryContainer.appendChild(input);
   });
 
-  // Handle form submission using fetch to POST data to the Apps Script web app.
+  // Handle form submission via fetch (POST)
   form.addEventListener("submit", function(event) {
     event.preventDefault();
     const formData = new FormData(form);
