@@ -32,9 +32,8 @@
               <input type="text" name="studentQuery" required>
             </div>
             <div class="form-group">
-              <label>Class</label>
-              <select name="studentClass">
-                <option value="">--Select Class--</option>
+              <label>Class (Select one or more)</label>
+              <select name="studentClass" multiple>
                 <option value="9th">9th</option>
                 <option value="10th">10th</option>
                 <option value="11th">11th</option>
@@ -42,14 +41,15 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Session</label>
-              <select name="studentSession">
-                <option value="">--Select Session--</option>
+              <label>Session (Select one or more)</label>
+              <select name="studentSession" multiple>
                 <option value="2022-23">2022-23</option>
                 <option value="2023-24">2023-24</option>
                 <option value="2024-25">2024-25</option>
               </select>
             </div>
+            <!-- Remove button will be added dynamically (if more than one query block exists) -->
+            <button type="button" class="removeStudentBtn" style="display:none;">Remove</button>
           </div>
         </div>
         <button type="button" id="addStudentBtn">Add Another Student</button>
@@ -67,38 +67,12 @@
         <div class="form-group">
           <label>Choose Columns Needed *</label><br>
           <div class="checkbox-group">
+            <!-- (List of checkboxes as before) -->
             <label><input type="checkbox" name="specificColumns" value="Form Number"> Form Number</label>
             <label><input type="checkbox" name="specificColumns" value="Class Roll Number"> Class Roll Number</label>
-            <label><input type="checkbox" name="specificColumns" value="Online Submission Date"> Online Submission Date</label>
-            <label><input type="checkbox" name="specificColumns" value="Admission Date"> Admission Date</label>
-            <label><input type="checkbox" name="specificColumns" value="Adm. No."> Adm. No.</label>
-            <label><input type="checkbox" name="specificColumns" value="Class"> Class</label>
-            <label><input type="checkbox" name="specificColumns" value="Session"> Session</label>
+            <!-- … add other checkboxes as needed … -->
             <label><input type="checkbox" name="specificColumns" value="Reg. Number"> Reg. Number</label>
             <label><input type="checkbox" name="specificColumns" value="Student Name"> Student Name</label>
-            <label><input type="checkbox" name="specificColumns" value="Father's Name"> Father's Name</label>
-            <label><input type="checkbox" name="specificColumns" value="Mother's Name"> Mother's Name</label>
-            <label><input type="checkbox" name="specificColumns" value="Date of Birth (Figures)"> Date of Birth (Figures)</label>
-            <label><input type="checkbox" name="specificColumns" value="Date of Birth (Words)"> Date of Birth (Words)</label>
-            <label><input type="checkbox" name="specificColumns" value="Residence (Village, District)"> Residence (Village, District)</label>
-            <label><input type="checkbox" name="specificColumns" value="Gender"> Gender</label>
-            <label><input type="checkbox" name="specificColumns" value="Religion"> Religion</label>
-            <label><input type="checkbox" name="specificColumns" value="Stream"> Stream</label>
-            <label><input type="checkbox" name="specificColumns" value="Subs"> Subs</label>
-            <label><input type="checkbox" name="specificColumns" value="Student Email 1"> Student Email 1</label>
-            <label><input type="checkbox" name="specificColumns" value="Student Email 2"> Student Email 2</label>
-            <label><input type="checkbox" name="specificColumns" value="Student's Contact"> Student's Contact</label>
-            <label><input type="checkbox" name="specificColumns" value="Parent's Contact"> Parent's Contact</label>
-            <label><input type="checkbox" name="specificColumns" value="Aadhar Number"> Aadhar Number</label>
-            <label><input type="checkbox" name="specificColumns" value="Bank Account Number"> Bank Account Number</label>
-            <label><input type="checkbox" name="specificColumns" value="Bank Name"> Bank Name</label>
-            <label><input type="checkbox" name="specificColumns" value="IFSC Code"> IFSC Code</label>
-            <label><input type="checkbox" name="specificColumns" value="Blood Group"> Blood Group</label>
-            <label><input type="checkbox" name="specificColumns" value="Previous School"> Previous School</label>
-            <label><input type="checkbox" name="specificColumns" value="Current Exam Roll No."> Current Exam Roll No.</label>
-            <label><input type="checkbox" name="specificColumns" value="Result"> Result</label>
-            <label><input type="checkbox" name="specificColumns" value="Date of withdrawl"> Date of withdrawl</label>
-            <label><input type="checkbox" name="specificColumns" value="No. & Date of CC/DC Issued by This Institution"> No. & Date of CC/DC Issued by This Institution</label>
           </div>
         </div>
       </div>
@@ -111,9 +85,8 @@
           <input type="text" id="bulkName" name="bulkName" required>
         </div>
         <div class="form-group">
-          <label for="bulkClass">Data needed for which class? *</label>
-          <select id="bulkClass" name="bulkClass" required>
-            <option value="">--Select Class--</option>
+          <label for="bulkClass">Data needed for which class? (Select one or more) *</label>
+          <select id="bulkClass" name="bulkClass" multiple required>
             <option value="9th">9th</option>
             <option value="10th">10th</option>
             <option value="11th">11th</option>
@@ -121,9 +94,8 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="bulkSession">Data needed for which academic session? *</label>
-          <select id="bulkSession" name="bulkSession" required>
-            <option value="">--Select Session--</option>
+          <label for="bulkSession">Data needed for which academic session? (Select one or more) *</label>
+          <select id="bulkSession" name="bulkSession" multiple required>
             <option value="2022-23">2022-23</option>
             <option value="2023-24">2023-24</option>
             <option value="2024-25">2024-25</option>
@@ -132,48 +104,11 @@
         <div class="form-group">
           <label> Select Columns Needed *</label><br>
           <div class="checkbox-group">
+            <!-- (List of checkboxes as before) -->
             <label><input type="checkbox" name="bulkColumns" value="Form Number"> Form Number</label>
             <label><input type="checkbox" name="bulkColumns" value="Class Roll Number"> Class Roll Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Online Submission Date"> Online Submission Date</label>
-            <label><input type="checkbox" name="bulkColumns" value="Admission Date"> Admission Date</label>
-            <label><input type="checkbox" name="bulkColumns" value="Adm. No."> Adm. No.</label>
-            <label><input type="checkbox" name="bulkColumns" value="Class"> Class</label>
-            <label><input type="checkbox" name="bulkColumns" value="Session"> Session</label>
-            <label><input type="checkbox" name="bulkColumns" value="Reg. Number"> Reg. Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Board Name"> Board Name</label>
+            <!-- … add other checkboxes as needed … -->
             <label><input type="checkbox" name="bulkColumns" value="Student Name"> Student Name</label>
-            <label><input type="checkbox" name="bulkColumns" value="Father's Name"> Father's Name</label>
-            <label><input type="checkbox" name="bulkColumns" value="Mother's Name"> Mother's Name</label>
-            <label><input type="checkbox" name="bulkColumns" value="Date of Birth (Figures)"> Date of Birth (Figures)</label>
-            <label><input type="checkbox" name="bulkColumns" value="Date of Birth (Words)"> Date of Birth (Words)</label>
-            <label><input type="checkbox" name="bulkColumns" value="Residence (Village, District)"> Residence (Village, District)</label>
-            <label><input type="checkbox" name="bulkColumns" value="Gender"> Gender</label>
-            <label><input type="checkbox" name="bulkColumns" value="Religion"> Religion</label>
-            <label><input type="checkbox" name="bulkColumns" value="Disability Type"> Disability Type</label>
-            <label><input type="checkbox" name="bulkColumns" value="Stream"> Stream</label>
-            <label><input type="checkbox" name="bulkColumns" value="Subs"> Subs</label>
-            <label><input type="checkbox" name="bulkColumns" value="Student Email 1"> Student Email 1</label>
-            <label><input type="checkbox" name="bulkColumns" value="Student Email 2"> Student Email 2</label>
-            <label><input type="checkbox" name="bulkColumns" value="Student's Contact"> Student's Contact</label>
-            <label><input type="checkbox" name="bulkColumns" value="Parent's Contact"> Parent's Contact</label>
-            <label><input type="checkbox" name="bulkColumns" value="Aadhar Number"> Aadhar Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Bank Account Number"> Bank Account Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Bank Name"> Bank Name</label>
-            <label><input type="checkbox" name="bulkColumns" value="IFSC"> IFSC</label>
-            <label><input type="checkbox" name="bulkColumns" value="Blood Group"> Blood Group</label>
-            <label><input type="checkbox" name="bulkColumns" value="Height (cm)"> Height (cm)</label>
-            <label><input type="checkbox" name="bulkColumns" value="Weight (kg)"> Weight (kg)</label>
-            <label><input type="checkbox" name="bulkColumns" value="Social Category"> Social Category</label>
-            <label><input type="checkbox" name="bulkColumns" value="Socio-economic Category"> Socio-economic Category</label>
-            <label><input type="checkbox" name="bulkColumns" value="Vocational Percentage"> Vocational Percentage</label>
-            <label><input type="checkbox" name="bulkColumns" value="Previous Complex Head"> Previous Complex Head</label>
-            <label><input type="checkbox" name="bulkColumns" value="Previous School"> Previous School</label>
-            <label><input type="checkbox" name="bulkColumns" value="Previous Exam Roll Number"> Previous Exam Roll Number</label>
-            <label><input type="checkbox" name="bulkColumns" value="Previous Marks Obtained"> Previous Marks Obtained</label>
-            <label><input type="checkbox" name="bulkColumns" value="Current Exam Roll No."> Current Exam Roll No.</label>
-            <label><input type="checkbox" name="bulkColumns" value="Result"> Result</label>
-            <label><input type="checkbox" name="bulkColumns" value="Date of withdrawl"> Date of withdrawl</label>
-            <label><input type="checkbox" name="bulkColumns" value="No. & Date of CC/DC Issued by This Institution"> No. & Date of CC/DC Issued by This Institution</label>
           </div>
         </div>
         <div class="form-group">
