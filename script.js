@@ -1,7 +1,7 @@
 // script.js
 
 // **REPLACE WITH YOUR ACTUAL DEPLOYED WEB APP URL**
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwaOGs1kZZoSYCpvaOkf5OahiimVbyWWqhAHgFAxXwrHrAcV0OLqGFs1DnOlB1DfDuY/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzlzno0CJH7fRRX34xDcEeDi6tjFY06hS1uIVPVq6NKByqlguZ9hZeHIepaZBCN7Dk/exec";
 
 // Helper to get selected values from a multiple select element.
 function getSelectValues(select) {
