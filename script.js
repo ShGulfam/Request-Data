@@ -1,6 +1,6 @@
 // script.js
 
-// URL of your deployed Apps Script web app.
+// **REPLACE WITH YOUR ACTUAL DEPLOYED WEB APP URL**
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwaOGs1kZZoSYCpvaOkf5OahiimVbyWWqhAHgFAxXwrHrAcV0OLqGFs1DnOlB1DfDuY/exec";
 
 // Helper to get selected values from a multiple select element.
@@ -161,22 +161,22 @@ document.addEventListener("DOMContentLoaded", function() {
       },
       body: JSON.stringify(formData)
     })
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("result").innerText = data.message;
-        form.querySelector("button[type='submit']").disabled = false;
-        form.reset();
-        specificSection.style.display = "block";
-        bulkSection.style.display = "none";
-        toggleSectionInputs(specificSection, false);
-        toggleSectionInputs(bulkSection, true);
-        const container = document.getElementById("studentQueriesContainer");
-        container.innerHTML = container.querySelector(".student-query").outerHTML;
-        updateRemoveButtons();
-      })
-      .catch(error => {
-        document.getElementById("result").innerText = "Error: " + error.message;
-        form.querySelector("button[type='submit']").disabled = false;
-      });
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById("result").innerText = data.message;
+      form.querySelector("button[type='submit']").disabled = false;
+      form.reset();
+      specificSection.style.display = "block";
+      bulkSection.style.display = "none";
+      toggleSectionInputs(specificSection, false);
+      toggleSectionInputs(bulkSection, true);
+      const container = document.getElementById("studentQueriesContainer");
+      container.innerHTML = container.querySelector(".student-query").outerHTML;
+      updateRemoveButtons();
+    })
+    .catch(error => {
+      document.getElementById("result").innerText = "Error: " + error.message;
+      form.querySelector("button[type='submit']").disabled = false;
+    });
   });
 });
